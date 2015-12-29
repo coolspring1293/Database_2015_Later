@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ERDiagram version="1.1">
+  <Connection session="android_test_01" database="ticket_system" />
+  <Drawing gridVisible="false" snapOn="false" fastRouting="false" labelsVisible="true" />
+  <Tables>
+    <Table name="purchasing">
+      <Drawing expanded="true" location="117,51" dimensions="146,87" />
+      <Columns>
+        <Column name="user_id" primary_key="true" foreign_key="true" required="true" unique="true">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="ticket_no" primary_key="true" foreign_key="true" required="true" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="amount" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+      </Columns>
+    </Table>
+    <Table name="station">
+      <Drawing expanded="true" location="-321,493" dimensions="202,88" />
+      <Columns>
+        <Column name="station_no" primary_key="true" foreign_key="false" required="true" unique="true">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="station_name" primary_key="false" foreign_key="false" required="true" unique="false">
+          <Data type="VARCHAR" size="20" />
+        </Column>
+        <Column name="station_rank" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="VARCHAR" size="3" />
+        </Column>
+      </Columns>
+    </Table>
+    <Table name="ticket">
+      <Drawing expanded="true" location="79,245" dimensions="240,165" />
+      <Columns>
+        <Column name="ticket_no" primary_key="true" foreign_key="false" required="true" unique="true">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="trip_no" primary_key="false" foreign_key="true" required="true" unique="false">
+          <Data type="VARCHAR" size="4" />
+        </Column>
+        <Column name="ticket_date" primary_key="false" foreign_key="false" required="true" unique="false">
+          <Data type="DATE" size="10" />
+        </Column>
+        <Column name="departure_station_no" primary_key="false" foreign_key="true" required="true" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="terminal_station_no" primary_key="false" foreign_key="true" required="true" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="total_count" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="remaining_count" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+      </Columns>
+    </Table>
+    <Table name="timetable">
+      <Drawing expanded="true" location="140,483" dimensions="179,127" />
+      <Columns>
+        <Column name="trip_no" primary_key="true" foreign_key="false" required="true" unique="true">
+          <Data type="VARCHAR" size="4" />
+        </Column>
+        <Column name="station_no" primary_key="false" foreign_key="true" required="false" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="arrive_time" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="TIME" size="8" />
+        </Column>
+        <Column name="leave_time" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="TIME" size="8" />
+        </Column>
+        <Column name="distence" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+      </Columns>
+    </Table>
+    <Table name="user">
+      <Drawing expanded="true" location="-354,44" dimensions="188,128" />
+      <Columns>
+        <Column name="user_id" primary_key="true" foreign_key="false" required="true" unique="true">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="user_name" primary_key="false" foreign_key="false" required="true" unique="false">
+          <Data type="VARCHAR" size="20" />
+        </Column>
+        <Column name="password" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="VARCHAR" size="16" />
+        </Column>
+        <Column name="age" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="INT" size="10" />
+        </Column>
+        <Column name="sex" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="VARCHAR" size="2" />
+        </Column>
+      </Columns>
+    </Table>
+  </Tables>
+  <Relationships>
+    <Relationship name="purchasing_ibfk_1">
+      <Details primary_table="user" foreign_table="purchasing">
+        <PrimaryKeys>
+          <ColumnName name="user_id" />
+        </PrimaryKeys>
+        <ForeignKeys>
+          <ColumnName name="user_id" />
+        </ForeignKeys>
+      </Details>
+      <Drawing routingType="0" />
+    </Relationship>
+    <Relationship name="purchasing_ibfk_2">
+      <Details primary_table="ticket" foreign_table="purchasing">
+        <PrimaryKeys>
+          <ColumnName name="ticket_no" />
+        </PrimaryKeys>
+        <ForeignKeys>
+          <ColumnName name="ticket_no" />
+        </ForeignKeys>
+      </Details>
+      <Drawing routingType="0" />
+    </Relationship>
+    <Relationship name="ticket_ibfk_1">
+      <Details primary_table="timetable" foreign_table="ticket">
+        <PrimaryKeys>
+          <ColumnName name="trip_no" />
+        </PrimaryKeys>
+        <ForeignKeys>
+          <ColumnName name="trip_no" />
+        </ForeignKeys>
+      </Details>
+      <Drawing routingType="0" />
+    </Relationship>
+    <Relationship name="ticket_ibfk_2">
+      <Details primary_table="station" foreign_table="ticket">
+        <PrimaryKeys>
+          <ColumnName name="station_no" />
+        </PrimaryKeys>
+        <ForeignKeys>
+          <ColumnName name="departure_station_no" />
+        </ForeignKeys>
+      </Details>
+      <Drawing routingType="0" />
+    </Relationship>
+    <Relationship name="ticket_ibfk_3">
+      <Details primary_table="station" foreign_table="ticket">
+        <PrimaryKeys>
+          <ColumnName name="station_no" />
+        </PrimaryKeys>
+        <ForeignKeys>
+          <ColumnName name="terminal_station_no" />
+        </ForeignKeys>
+      </Details>
+      <Drawing routingType="0" />
+    </Relationship>
+    <Relationship name="timetable_ibfk_1">
+      <Details primary_table="station" foreign_table="timetable">
+        <PrimaryKeys>
+          <ColumnName name="station_no" />
+        </PrimaryKeys>
+        <ForeignKeys>
+          <ColumnName name="station_no" />
+        </ForeignKeys>
+      </Details>
+      <Drawing routingType="0" />
+    </Relationship>
+  </Relationships>
+</ERDiagram>
+
