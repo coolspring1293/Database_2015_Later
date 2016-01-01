@@ -232,6 +232,7 @@ create procedure proc_delete_user(
     END ||
 DELIMITER ;
 
+
 call proc_delete_user('DFA', 'sdggfdvasz', @idFD);
 
 
@@ -261,6 +262,50 @@ DELIMITER ;
 
 call proc_change_pwd('liusy7', '1234', 'dsaf', @idFD);
 
+--用户查询已经购买
+--------------------------------------
+select * from purchasing;
 
+-- 查询车的时刻表
+drop view if exists view_trip_timetable;
+create view view_trip_timetable(trip_no, station_name, arrive_time, leave_time, distance, price) as
+    select trip_no, station_name, arrive_time, leave_time, distance, distance*0.35 as price, timediff(leave_time, arrive_time) as stop_time
+    from timetable, station 
+    where trip_no = 'G381' and timetable.station_no = station.station_no
+    order by arrive_time  asc;
+
+
+insert into timetable values
+("D1", 000001, NULL, '18:08', 0), 
+("D1", 000003, '23:20', NULL, 703);
+
+-- 小函数：返回站名
+DELIMITER ||
+drop function if exists return_station_name ||
+create function return_station_name (
+    tmp_station_no INT 
+)
+    returns varchar(20)
+    READS SQL DATA
+    BEGIN
+        DECLARE isResult varchar(20) default "Not Exist";
+        select station.station_name from station where station.station_no =  tmp_station_no into isResult;
+        RETURN isResult;
+    END ||
+DELIMITER ;
+
+create view view_double_station_timetable_beijing
+    (trip_no, station_no, arrive_time, leave_time, distance) as
+    select trip_no, station_no, arrive_time, leave_time, distance from timetable 
+    where station_no = 1;
+
+create view view_double_station_timetable_shenyang
+    (trip_no, station_no, arrive_time, leave_time, distance) as
+    select trip_no, station_no, arrive_time, leave_time, distance from timetable 
+    where station_no = 3;
+
+select return_station_name(t1.station_no) as 始发站, t1.leave_time, return_station_name(t2.station_no) as 终点站, t2.arrive_time, timediff(t2.arrive_time, t1.leave_time) as diff_time , (t2.distance - t1.distance) * 0.35 as price
+    from view_double_station_timetable_beijing t1, view_double_station_timetable_shenyang t2
+    where t1.trip_no = t2.trip_no;
 
 
