@@ -374,4 +374,51 @@ public class DBManager {
         return false;
     }
   	
+  	
+  //添加时刻表
+  	public Boolean addTimetable(String trip_no, String station, String arrive_time, String leave_time, int distance, int time) {
+  		
+          //转换Java String到mysql time
+          java.util.Date arrive = new Date(0);
+          java.util.Date leave = new Date(0);
+          SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); 
+          try { 
+        	  arrive = sdf.parse(arrive_time); 
+        	  leave = sdf.parse(leave_time); 
+           
+          } catch(Exception e) { 
+              e.printStackTrace(); 
+          } 
+          
+          int station_no = getStationNo(station);
+          
+          // 操作DB对象：向ticket表中插入一条数据
+          try {
+          	PreparedStatement pstmt = conn.prepareStatement("insert into timetable values (?,?,?,?,?)");
+              pstmt.setString(1, trip_no);
+          	  pstmt.setInt(2, station_no);
+          	  if (time == 0) {
+          		  pstmt.setTime(3, null);
+                  pstmt.setTime(4, new java.sql.Time(leave.getTime()));
+
+          	  }
+          	  else if (time == 1) {
+          		pstmt.setTime(3, new java.sql.Time(arrive.getTime()));
+                pstmt.setTime(4, null);
+          	  }
+          	  else {
+          		  pstmt.setTime(3, new java.sql.Time(arrive.getTime()));
+          		  pstmt.setTime(4, new java.sql.Time(leave.getTime()));
+          	  }
+              pstmt.setInt(5, distance);
+              int count = pstmt.executeUpdate();
+              if (count > 0) {
+              	return true;
+              }
+          } catch (SQLException e) {
+              e.printStackTrace();
+          }
+          return false;
+      }
+  	
 }

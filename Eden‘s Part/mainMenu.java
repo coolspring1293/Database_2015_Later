@@ -18,6 +18,9 @@ public class mainMenu {
 	static String departure_station;
 	static String terminal_station;
 	static String date;
+	static String arrive_time;
+	static String leave_time;
+	static int distance;
 	static int rank;
 	static int amount;
 	static int total_count;
@@ -72,6 +75,7 @@ public class mainMenu {
                     	            	}
                     	            	
                     	            	case 3: {
+                    	            		
                     	            		break;
                     	            	}
                     	            	
@@ -128,6 +132,7 @@ public class mainMenu {
                 				Boolean is = true;
                 				System.out.println("登录成功，欢迎管理员" + nickname + "~\n");
                             	Boolean flag = true;
+                            	int time = 0;
                 				while (flag) {
                     				System.out.println("********************22306管理界面**************************");
                     	            System.out.println("1、添加车票信息           2、添加车站          3、添加车次");
@@ -142,7 +147,7 @@ public class mainMenu {
                                     		trip_no = sc.next();
                                     		is = per.checkTripNo(trip_no);
                                     		if (is == false) {
-                                    			System.out.println("您输入的车站不在时刻表中，请新增该车次的时刻表。\n");
+                                    			System.out.println("您输入的车次不在时刻表中，请新增该车次的时刻表。\n");
                                     			break;
                                     		}
                                     		System.out.print("请输入发车时间(格式如“2016-01-06”): ");
@@ -199,7 +204,91 @@ public class mainMenu {
                     	            	}
                     	            	
                     	            	case 3: {
-                    	            		break;
+                    	            		System.out.print("请输入需要新增车票的车次(格式如“G381”): ");
+                                    		trip_no = sc.next();
+                                    		is = per.checkTripNo(trip_no);
+                                    		if (is == true) {
+                                    			System.out.println("您输入的车次已存在与时刻表中！\n");
+                                    			break;
+                                    		}
+                                    		
+                                    		System.out.print("请输入该车次中的站数: ");
+                                    		int count = sc.nextInt();
+                                    		if (count < 2) {
+                                    			System.out.println("站数至少为2！\n");
+                                    			break;
+                                    		}
+                                    		
+                                    		time = 0;
+                                    		System.out.print("请输入始发站(格式如“北京”): ");
+                                    		station = sc.next();
+                                    		is = per.checkStation(station);
+                                    		if (is == false) {
+                                    			System.out.println("您输入的车站不在车站表中，请新增该车站。\n");
+                                    			break;
+                                    		}
+                                    		System.out.print("请输入发车时间(格式如“10：00：00”): ");
+                                    		leave_time = sc.next();
+                                    		arrive_time = "00:00:00";
+                                    		distance = 0;
+                                    		is = per.addTimetable(trip_no, station, arrive_time, leave_time, distance, time);
+                                			if (is) {
+                                    			System.out.println("新增车站成功！");
+                                    		}
+                                    		else {
+                                    			System.out.println("新增车站失败，请重试!");
+                                        		break;
+                                    		}
+                                			
+                                			time = 2;
+                                			for (int i = 0; i < count - 2; i++) {
+                                				System.out.print("请输入第" + i+2 + "个车站(格式如“北京”): ");
+                                        		station = sc.next();
+                                        		is = per.checkStation(station);
+                                        		if (is == false) {
+                                        			System.out.println("您输入的车站不在车站表中，请新增该车站。\n");
+                                        			break;
+                                        		}
+                                        		System.out.print("请输入到站时间(格式如“10：00：00”): ");
+                                        		arrive_time = sc.next();
+                                        		System.out.print("请输入离站时间(格式如“10：00：00”): ");
+                                        		leave_time = sc.next();
+                                        		System.out.print("请输入距始发站的距离(公里)(格式如“100”): ");
+                                        		distance = sc.nextInt();
+                                        		is = per.addTimetable(trip_no, station, arrive_time, leave_time, distance, time);
+                                    			if (is) {
+                                        			System.out.println("新增车站成功！");
+                                        		}
+                                        		else {
+                                        			System.out.println("新增车站失败，请重试!");
+                                            		break;
+                                        		}
+                                			}
+                                			
+                                			time = 1;
+                                			System.out.print("请输入终点站(格式如“北京”): ");
+                                    		station = sc.next();
+                                    		is = per.checkStation(station);
+                                    		if (is == false) {
+                                    			System.out.println("您输入的车站不在车站表中，请新增该车站。\n");
+                                    			break;
+                                    		}
+                                    		System.out.print("请输入到站时间(格式如“10：00：00”): ");
+                                    		arrive_time = sc.next();
+                                    		leave_time = "00:00:00";
+                                    		System.out.print("请输入距始发站的距离(公里)(格式如“100”): ");
+                                    		distance = sc.nextInt();
+                                    		is = per.addTimetable(trip_no, station, arrive_time, null, distance, time);
+                                			if (is) {
+                                    			System.out.println("新增车站成功！");
+                                    		}
+                                    		else {
+                                    			System.out.println("新增车站失败，请重试!");
+                                        		break;
+                                    		}
+                                			
+                                			System.out.println("新增时刻表成功！\n");
+                                			break;
                     	            	}
                     	            	
                     	            	case 4: {
