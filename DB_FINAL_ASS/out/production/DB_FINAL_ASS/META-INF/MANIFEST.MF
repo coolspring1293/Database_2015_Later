@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: jansi-1.11.jar lib/mysql-connector-java-5.1.30-bin.jar
+Main-Class: com.main.mainMenu
+
