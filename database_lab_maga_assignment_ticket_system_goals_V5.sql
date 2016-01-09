@@ -52,7 +52,7 @@ create table purchasing (
 
 
 
-# mysqldump -u root -pcoolspring ticket_system > /Users/liuw53/Desktop/ticket_system_backup.sql
+# mysqldump -u root -pcoolspring ticket_system > /Users/liuw53/Desktop/Database_2015_Later/ticket_system_backup_version1.0.sql
 
 insert into station values
 (000001, "北京", "CEN"), 
