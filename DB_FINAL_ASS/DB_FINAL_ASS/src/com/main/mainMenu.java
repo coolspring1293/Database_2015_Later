@@ -28,7 +28,7 @@ public class mainMenu {
     static double price = 0.35;
 
     public static void main (String []args) throws Exception {
-        System.out.print( ansi().eraseScreen().render("@|red 22306购票系统|@ @|green V1.0|@ @|yellow Created by Liu Wang, Liu Zihan|@") );
+        System.out.println( ansi().eraseScreen().render("@|red 22306购票系统|@ @|green V1.0|@ @|yellow Created by Liu Wang, Liu Zihan|@") );
         per.connectDB();
         while (true) {
             try {
@@ -128,7 +128,7 @@ public class mainMenu {
                                                         "|@，发车时间为@|green " + date + "|@，余票@|yellow " + r_tmp  +"|@张。"));
 
                                                 if (r_tmp == 0) {
-                                                    System.out.println(ansi().eraseScreen().render("没有票\uD83D\uDE02"));
+                                                    System.out.println(ansi().eraseScreen().render("@|yellow 没有票|@"));
                                                     break;
                                                 }
                                                 System.out.print("请输入购票数量: ");

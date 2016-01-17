@@ -32,6 +32,7 @@ public class DBManager {
 
 
     }
+    // 创建实例
     public static DBManager createInstance() {
         if (per == null) {
             per = new DBManager();
@@ -82,7 +83,7 @@ public class DBManager {
         System.out.println("Close connection successful");
     }
 
-    // 查询
+    // 查询, 输入SQL语句String, 输出ResultSet
     public ResultSet executeQuery(String sql) {
         ResultSet rs = null;
         try {
@@ -522,8 +523,13 @@ public class DBManager {
 
         return true;
     }
-
-    public Boolean getStationAndStation(String st, String ed, double price)  throws SQLException {
+    /**
+    * 获取车站与车站之间的时刻表
+    * @st    始发站
+    * @ed    终点站
+    * @price 单位票价
+    * */
+    public Boolean getStationAndStation(String st, String ed, double price) throws SQLException {
         int st_no = getStationNo(st), ed_no = getStationNo(ed);
         String tip_sql = "select \n" +
                 "t1.trip_no as trip_number," +
@@ -545,6 +551,7 @@ public class DBManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        // 以下是输出数据部分
         /////////////////////////////////////////////////////////////////////
         String no;
         Time arrive_time, leave_time, diff_time;
@@ -693,3 +700,4 @@ public class DBManager {
 
 
 }
+
